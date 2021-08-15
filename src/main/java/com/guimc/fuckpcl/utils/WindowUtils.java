@@ -24,9 +24,9 @@ public class WindowUtils {
 
         windowFunded[0] = false;
 
-        user32.EnumWindows((hWnd, arg1) -> {
+        user32.EnumWindows((hwnd, arg1) -> {
             byte[] windowText = new byte[512];
-            user32.GetWindowTextA(hWnd, windowText, 512);
+            user32.GetWindowTextA(hwnd, windowText, 512);
             String wText = Native.toString(windowText);
             if(wText.contains(Text)) {
                 windowFunded[0] = true;
