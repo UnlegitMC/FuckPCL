@@ -61,15 +61,15 @@ object PCLChecker {
         require(mcDir.exists()) { "Argument \"mcDir\" is not exists" }
         require(mcDir.isDirectory) { "Argument \"mcDir\" should be a folder" }
 
+        var exists = false
         val pclDataDir = File(mcDir, "PCL")
         if (pclDataDir.exists()) {
             if (deleteFolder)
                 deleteFolder(pclDataDir)
-            return true
-        }
+            exists=true
+        } // me need to delete all folders
 
         val mcVersionDir = File(mcDir, "versions")
-        var exists = false
         if (mcVersionDir.exists()) { // I think this should be existed but ...
             Arrays.stream(mcVersionDir.listFiles()).forEach { folder: File? ->
                 val pclVersionDataDir = File(folder, "PCL")

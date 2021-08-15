@@ -7,8 +7,15 @@ But they called "sponsor" but we think this NOT simple sponsor it JUST pay.
 This the reason of we're creating this lib
 
 # Use
+If your project are on kotlin
+~~~kotlin
+import com.guimc.fuckpcl.PCLChecker
+
+PCLChecker.fullCheck(Minecraft.getMinecraft().mcDataDir/*, true*/) // boolean
+~~~
+If your project are on java
 ~~~java
 import com.guimc.fuckpcl.PCLChecker;
 
-PCLChecker.runCheck(); // boolean
+PCLChecker.INSTANCE.fullCheck(Minecraft.getMinecraft().mcDataDir/*, true*/);
 ~~~
