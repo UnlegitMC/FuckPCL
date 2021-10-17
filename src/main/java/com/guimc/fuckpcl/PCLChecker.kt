@@ -10,15 +10,6 @@ import java.util.*
  */
 object PCLChecker {
     /**
-     * This method will delete in next version and this can only check PCL title because the minecraft folder path not given
-     * @return check result
-     */
-    @Deprecated("This method will delete in next version", ReplaceWith("fullCheck(mcDir, deleteFolder)", "com.guimc.fuckpcl.PCLChecker.fullCheck"))
-    fun runCheck(): Boolean {
-        return titleCheck()
-    }
-
-    /**
      * run full PCL check
      * @param mcDir minecraft folder path
      * @param deleteFolder delete PCL data folder for next PCL deleted check
@@ -65,7 +56,7 @@ object PCLChecker {
         val pclDataDir = File(mcDir, "PCL")
         if (pclDataDir.exists()) {
             if (deleteFolder)
-                deleteFolder(pclDataDir)
+                pclDataDir.deleteRecursively()
             exists=true
         } // me need to delete all folders
 
@@ -75,7 +66,7 @@ object PCLChecker {
                 val pclVersionDataDir = File(folder, "PCL")
                 if (pclVersionDataDir.exists()) {
                     if (deleteFolder)
-                        deleteFolder(pclVersionDataDir)
+                        pclVersionDataDir.deleteRecursively()
                     exists = true
                 }
             }
@@ -84,20 +75,5 @@ object PCLChecker {
             return true
 
         return false
-    }
-
-    private fun deleteFolder(folder: File){
-        require(folder.exists()) { "Argument \"folder\" is not exists" }
-        require(folder.isDirectory) { "Argument \"folder\" should be a folder" }
-
-        folder.listFiles().forEach {
-            if(it.isFile){
-                it.delete()
-            }else if(it.isDirectory){
-                deleteFolder(it)
-            }
-        }
-
-        folder.delete()
     }
 }
