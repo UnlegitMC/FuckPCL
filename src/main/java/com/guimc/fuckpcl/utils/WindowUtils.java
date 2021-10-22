@@ -6,6 +6,8 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.StdCallLibrary;
 
+import java.util.ArrayList;
+
 public class WindowUtils {
     public interface User32 extends StdCallLibrary {
         User32 INSTANCE = Native.loadLibrary("user32", User32.class);
@@ -14,26 +16,21 @@ public class WindowUtils {
     }
 
     public static boolean isWindows() {
-        String OS = System.getProperty("os.name").toLowerCase();
-        return OS.contains("windows");
+        return System.getProperty("os.name").toLowerCase().contains("windows");
     }
 
-    public static Boolean findWindow(String Text) {
+    public static String[] getWindowNames() {
         final User32 user32 = User32.INSTANCE;
-        final Boolean[] windowFunded = new Boolean[1];
-
-        windowFunded[0] = false;
+        final ArrayList<String> list = new ArrayList<>();
 
         user32.EnumWindows((hwnd, arg1) -> {
             byte[] windowText = new byte[512];
             user32.GetWindowTextA(hwnd, windowText, 512);
             String wText = Native.toString(windowText);
-            if(wText.contains(Text)) {
-                windowFunded[0] = true;
-            }
+            list.add(wText);
             return true;
         }, null);
 
-        return windowFunded[0];
+        return list.toArray(new String[0]);
     }
 }

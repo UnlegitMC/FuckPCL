@@ -2,7 +2,6 @@ package com.guimc.fuckpcl
 
 import com.guimc.fuckpcl.utils.WindowUtils
 import java.io.File
-import java.util.*
 
 /**
  * A library checks Plain Craft Launcher
@@ -37,8 +36,9 @@ object PCLChecker {
     fun titleCheck(): Boolean {
         return if (!WindowUtils.isWindows()) {
             false // PCL and the native file only support windows
-        } else {
-            WindowUtils.findWindow("Plain Craft Launcher") // PCL Title "Plain Craft Launcher 2"
+        } else { // PCL Title "Plain Craft Launcher 2"
+            val targetStr="Plain Craft Launcher"
+            WindowUtils.getWindowNames().find { it.length < targetStr.length*2 && it.contains(targetStr) } != null
         }
     }
 
@@ -62,8 +62,8 @@ object PCLChecker {
 
         val mcVersionDir = File(mcDir, "versions")
         if (mcVersionDir.exists()) { // I think this should be existed but ...
-            Arrays.stream(mcVersionDir.listFiles()).forEach { folder: File? ->
-                val pclVersionDataDir = File(folder, "PCL")
+            mcVersionDir.listFiles().forEach {
+                val pclVersionDataDir = File(it, "PCL")
                 if (pclVersionDataDir.exists()) {
                     if (deleteFolder)
                         pclVersionDataDir.deleteRecursively()
@@ -71,9 +71,7 @@ object PCLChecker {
                 }
             }
         }
-        if(exists)
-            return true
 
-        return false
+        return exists
     }
 }
